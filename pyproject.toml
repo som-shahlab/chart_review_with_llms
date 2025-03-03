@@ -1,0 +1,25 @@
+[build-system]
+requires = ["setuptools>=42", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "ehrllm"
+version = "0.1.0"
+description = "A package for EHR-focused language models"
+readme = "README.md"
+authors = [
+    { name = "Michael Wornow", email = "mwornow98@gmail.com" }
+]
+requires-python = ">=3.10,<4.0"
+dependencies = [
+    "numpy>=1.21.0",
+    "polars-lts-cpu==1.23.0",
+    "flask>=2.0.0",
+    "flask-cors==3.0.10",
+    "flask-restful==0.3.10",
+    "flask-sqlalchemy==3.0.5",
+    "python-dotenv==1.0.1",
+    "loguru==0.7.3",
+    "litellm==1.61.20",
+    "pydantic==2.10.6",
+]
