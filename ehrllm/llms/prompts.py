@@ -45,6 +45,7 @@ def CHAT_USER_QUERY_AGGREGATE_RESPONSES_PROMPT(query: str, responses: List[Dict[
     Now, your task is to aggregate these note-level responses into a single coherent response.
     Maintain all the proper evidence, quotes, note_ids, and thinking from the note-level responses that you incorporate into your answer.
     For 'source', specify the note_id of the note that the quote is from.
+    Write your 'answer' in plain text, no markup languages.
     </Task>
     
     <User Query>
@@ -59,6 +60,7 @@ def CHAT_USER_QUERY_AGGREGATE_RESPONSES_PROMPT(query: str, responses: List[Dict[
     Please aggregate the responses from the LLM into a single accurate response to the User Query in the correct JSON format.
     Maintain all the proper evidence, quotes, note_ids, and thinking from the note-level responses that you incorporate into your answer.
     For 'source', specify the note_id of the note that the quote is from.
+    Write your 'answer' in plain text, no markup languages.
     </Task>
     
     <Response>

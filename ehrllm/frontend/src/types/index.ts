@@ -2,10 +2,18 @@
 
 export interface Note {
   note_id: string;
-  hadm_id: string;
-  charttime: string;
-  note_type: string;
   text: string;
+  chartdatetime: string;
+  note_type: string;
+  hadm_id: string;
+}
+
+export interface PatientMetadata {
+  name: string;
+  age: number;
+  mrn: string;
+  n_notes: number;
+  labels: any[] | null;
 }
 
 export interface PatientData {

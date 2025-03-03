@@ -117,13 +117,13 @@ def call_llm_with_retries(messages: List[dict],
                                             **kwargs)
     
             # Cache results
-            path_to_cache: str = os.path.join("call_llm_with_retries", f"{datetime.now().strftime('%Y-%m-%d_%H-%M-%S')}.json")
+            path_to_cache: str = os.path.join("call_llm_with_retries", f"{datetime.datetime.now().strftime('%Y-%m-%d_%H-%M-%S')}.json")
             os.makedirs(os.path.dirname(path_to_cache), exist_ok=True)
             with open(path_to_cache, 'w') as f:
                 json.dump({
                     'model' : model,
                     'response_format' : str(response_format),
-                    'response' : response,
+                    'response' : response.choices[0].message.content,
                     'messages' : messages,
                 }, f)
             

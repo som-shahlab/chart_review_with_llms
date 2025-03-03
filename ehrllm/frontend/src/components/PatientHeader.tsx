@@ -5,22 +5,18 @@ import { Card } from "@/components/ui/card"
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 import { AlertCircle, Loader2 } from "lucide-react"
 import { createKeyboardShortcut } from '@/lib/utils'
-
-interface PatientMetadata {
-  name: string;
-  age: number;
-  mrn: string;
-  n_notes: number;
-}
+import { PatientMetadata } from '@/types'
+import { N2C22018LabelsPanel } from './LabelsPanel'
 
 interface PatientHeaderProps {
   loadPatient: (id: number) => Promise<void>;
   patientMetadata?: PatientMetadata;
   error: string | null;
   setError: (error: string | null) => void;
+  settings: any;
 }
 
-export function PatientHeader({ loadPatient, patientMetadata, error, setError }: PatientHeaderProps) {
+export function PatientHeader({ loadPatient, patientMetadata, error, setError, settings }: PatientHeaderProps) {
   const [patientId, setPatientId] = useState('10000032');
   const [isLoading, setIsLoading] = useState(false);
   const patientIdInputRef = useRef<HTMLInputElement>(null);
@@ -112,6 +108,12 @@ export function PatientHeader({ loadPatient, patientMetadata, error, setError }:
             <p className="font-medium">{patientMetadata.n_notes}</p>
           </div>
         </div>
+      )}
+      {patientMetadata?.labels && patientMetadata.labels.length > 0 && (
+        settings?.database === 'n2c2-2018' ? 
+          <N2C22018LabelsPanel patientMetadata={patientMetadata} /> 
+          :
+          <div>Unknown database</div>
       )}
     </Card>
   )

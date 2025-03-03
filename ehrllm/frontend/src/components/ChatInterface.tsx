@@ -16,12 +16,13 @@ import { createKeyboardShortcut } from '@/lib/utils'
 interface ChatInterfaceProps {
   patientId: number | null;
   highlightEvidence: (message: Message) => void;
+  settings: any;
 }
 
 const UserMessage = ({ index, n_messages, message }: { index: number; n_messages: number; message: Message }) => {
   return (
     <div
-      className={`mb-4 text-right`}
+      className="mb-4 text-right whitespace-pre-line"
     >
       <Card className={`inline-block p-3 max-w-[80%] bg-primary/10`}>
         <p className="text-sm">{message.content}</p>
@@ -39,13 +40,13 @@ const AssistantMessage = ({ index, n_messages, message, highlightEvidence }: { i
   
   return (
     <div
-      className={`mb-4 text-left`}
+      className="mb-4 text-left whitespace-pre-line"
     >
       <Card className={`inline-block p-3 max-w-[80%] bg-muted`}>
         <p className="text-sm">
           {message.content}
         </p>
-        {message.evidence &&
+        {message.evidence && message.evidence.length > 0 &&
           <Badge
             variant="outline"
             className="mt-2 cursor-pointer"
@@ -103,7 +104,7 @@ function formatMessages(messages: Message[], highlightEvidence: (message: Messag
   ));
 }
 
-export function ChatInterface({ patientId, highlightEvidence }: ChatInterfaceProps) {
+export function ChatInterface({ patientId, highlightEvidence, settings }: ChatInterfaceProps) {
   const [messages, setMessages] = useState<Message[]>([])
   const [query, setQuery] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -146,8 +147,7 @@ export function ChatInterface({ patientId, highlightEvidence }: ChatInterfacePro
 
     // Fetch response
     setIsLoading(true);
-    console.log("updatedMessages", updatedMessages);
-    const resp = await getChatResponse(patientId, updatedMessages);
+    const resp = await getChatResponse(patientId, updatedMessages, settings);
     setIsLoading(false);
 
     // Parse response
