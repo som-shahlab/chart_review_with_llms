@@ -20,6 +20,7 @@ def CHAT_USER_QUERY_OVER_ONE_NOTE_PROMPT(query: str, notes: List[Dict[str, Any]]
     <Task>
     Please accurately answer the User Query based on the notes. 
     Take into account the entire conversation history as well in your response.
+    IMPORTANT: Only write down quotes that come directly from the notes themselves (i.e. NOT from the conversation history).
     </Task>
     
     <User Query>
@@ -32,6 +33,7 @@ def CHAT_USER_QUERY_OVER_ONE_NOTE_PROMPT(query: str, notes: List[Dict[str, Any]]
     
     <Task>
     Please answer the User Query based on the notes in JSON format.
+    IMPORTANT: Only write down quotes that come directly from the notes themselves (i.e. NOT from the conversation history).
     </Task>
     
     <Response>

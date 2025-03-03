@@ -16,7 +16,7 @@ interface PatientHeaderProps {
   settings: any;
 }
 
-export function PatientHeader({ loadPatient, patientMetadata, error, setError, settings }: PatientHeaderProps) {
+export function PatientHeader({ loadPatient, patientMetadata, error, setError, setQuery, settings }: PatientHeaderProps) {
   const [patientId, setPatientId] = useState('10000032');
   const [isLoading, setIsLoading] = useState(false);
   const patientIdInputRef = useRef<HTMLInputElement>(null);
@@ -111,7 +111,7 @@ export function PatientHeader({ loadPatient, patientMetadata, error, setError, s
       )}
       {patientMetadata?.labels && patientMetadata.labels.length > 0 && (
         settings?.database === 'n2c2-2018' ? 
-          <N2C22018LabelsPanel patientMetadata={patientMetadata} /> 
+          <N2C22018LabelsPanel patientMetadata={patientMetadata} setQuery={setQuery} /> 
           :
           <div>Unknown database</div>
       )}

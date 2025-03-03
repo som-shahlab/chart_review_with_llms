@@ -15,6 +15,7 @@ export function Main() {
   const [patientData, setPatientData] = useState<PatientData | null>(null)
   const [headerError, setHeaderError] = useState<string | null>(null)
   const [highlightClaimQuoteTuples, setHighlightClaimQuoteTuples] = useState<string[][]>([])
+  const [query, setQuery] = useState<string>('');
 
   useEffect(() => { 
       setHighlightClaimQuoteTuples(
@@ -77,6 +78,7 @@ export function Main() {
           <PatientHeader 
               loadPatient={loadPatient} 
               patientMetadata={patientData?.metadata}
+              setQuery={setQuery}
               error={headerError}
               setError={setHeaderError}
               settings={settings}
@@ -93,6 +95,8 @@ export function Main() {
                 <ChatInterface 
                   patientId={patientId} 
                   highlightEvidence={highlightEvidence} 
+                  query={query}
+                  setQuery={setQuery}
                   settings={settings}
                 />
               </div>

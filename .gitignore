@@ -1,6 +1,7 @@
 data/
 .DS_Store
 node_modules/
+cache/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

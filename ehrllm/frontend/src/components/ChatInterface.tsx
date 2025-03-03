@@ -17,6 +17,8 @@ interface ChatInterfaceProps {
   patientId: number | null;
   highlightEvidence: (message: Message) => void;
   settings: any;
+  query: string;
+  setQuery: (query: string) => void;
 }
 
 const UserMessage = ({ index, n_messages, message }: { index: number; n_messages: number; message: Message }) => {
@@ -24,7 +26,7 @@ const UserMessage = ({ index, n_messages, message }: { index: number; n_messages
     <div
       className="mb-4 text-right whitespace-pre-line"
     >
-      <Card className={`inline-block p-3 max-w-[80%] bg-primary/10`}>
+      <Card className={`inline-block text-left p-3 max-w-[80%] bg-primary/10`}>
         <p className="text-sm">{message.content}</p>
       </Card>
     </div>
@@ -104,9 +106,8 @@ function formatMessages(messages: Message[], highlightEvidence: (message: Messag
   ));
 }
 
-export function ChatInterface({ patientId, highlightEvidence, settings }: ChatInterfaceProps) {
+export function ChatInterface({ patientId, highlightEvidence, settings, query, setQuery }: ChatInterfaceProps) {
   const [messages, setMessages] = useState<Message[]>([])
-  const [query, setQuery] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -180,6 +181,7 @@ export function ChatInterface({ patientId, highlightEvidence, settings }: ChatIn
         </ScrollArea>
         <div className="p-4 border-t flex gap-2">
           <Input
+            id="chat-query-input"
             ref={inputRef}
             value={query}
             onChange={(e) => setQuery(e.target.value)}
