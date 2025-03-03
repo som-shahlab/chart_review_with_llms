@@ -9,9 +9,9 @@ import { getChatResponse } from '@/lib/api'
 import { Loader2, ChevronDown, ChevronUp, ExternalLink, } from 'lucide-react'
 import { Badge } from '@/components/ui/badge'
 import React from 'react'
-import { Message } from "@/types";
+import { Message, PatientData } from "@/types";
 import { KeyboardShortcut } from './ui/keyboard-shortcut'
-import { createKeyboardShortcut } from '@/lib/utils'
+import { createKeyboardShortcut, MODEL_2_DISPLAY_NAME } from '@/lib/utils'
 
 interface ChatInterfaceProps {
   patientId: number | null;
@@ -19,6 +19,7 @@ interface ChatInterfaceProps {
   settings: any;
   query: string;
   setQuery: (query: string) => void;
+  patientData: PatientData | null;
 }
 
 const UserMessage = ({ index, n_messages, message }: { index: number; n_messages: number; message: Message }) => {
@@ -106,7 +107,7 @@ function formatMessages(messages: Message[], highlightEvidence: (message: Messag
   ));
 }
 
-export function ChatInterface({ patientId, highlightEvidence, settings, query, setQuery }: ChatInterfaceProps) {
+export function ChatInterface({ patientId, highlightEvidence, settings, query, setQuery, patientData }: ChatInterfaceProps) {
   const [messages, setMessages] = useState<Message[]>([])
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -133,7 +134,20 @@ export function ChatInterface({ patientId, highlightEvidence, settings, query, s
   // Focus input on mount
   useEffect(() => {
     inputRef.current?.focus();
-  }, [patientId]);
+  }, [patientData]);
+
+  useEffect(() => {
+    const model_name: string = settings.model ? MODEL_2_DISPLAY_NAME[settings.model] : '';
+    if (settings.database === 'n2c2-2018' && patientData) {
+      setMessages([
+        { role: 'assistant', id: 'assistant', content: `Hi! I am a bot [${model_name}] that can help you determine if this patient is eligible for a clinical trial. Please double check important details, as I can make mistakes.` }
+      ]);
+    } else if (settings.database === 'mimiciv-notes' && patientData) {
+      setMessages([
+        { role: 'assistant', id: 'assistant', content: `Hi! I am a bot [${model_name}] that can answer any question you have about this patient. Please double check important details, as I can make mistakes.` }
+      ]);
+    }
+  }, [settings.database, settings.model, patientData]);
 
   // Submit query to chatbot
   const submitQuery = async () => {

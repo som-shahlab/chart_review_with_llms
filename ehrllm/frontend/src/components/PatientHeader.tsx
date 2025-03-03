@@ -9,15 +9,17 @@ import { PatientMetadata } from '@/types'
 import { N2C22018LabelsPanel } from './LabelsPanel'
 
 interface PatientHeaderProps {
-  loadPatient: (id: number) => Promise<void>;
+  loadPatient: (id: string) => Promise<void>;
   patientMetadata?: PatientMetadata;
   error: string | null;
   setError: (error: string | null) => void;
   settings: any;
+  setQuery: (query: string) => void;
+  patientId: string;
+  setPatientId: (patientId: string) => void;
 }
 
-export function PatientHeader({ loadPatient, patientMetadata, error, setError, setQuery, settings }: PatientHeaderProps) {
-  const [patientId, setPatientId] = useState('10000032');
+export function PatientHeader({ loadPatient, patientMetadata, error, setError, setQuery, patientId, setPatientId, settings }: PatientHeaderProps) {
   const [isLoading, setIsLoading] = useState(false);
   const patientIdInputRef = useRef<HTMLInputElement>(null);
 
@@ -35,15 +37,11 @@ export function PatientHeader({ loadPatient, patientMetadata, error, setError, s
   const handleSubmit = async () => {
     // Ignore if the patient ID is not a number
     const cleanPatientId = patientId.trim();
-    if (isNaN(Number(cleanPatientId))) {
-      setError('Patient ID must be a number');
-      return;
-    }
 
     // Load the patient
     setIsLoading(true);
     try {
-      await loadPatient(Number(cleanPatientId));
+      await loadPatient(cleanPatientId);
     } finally {
       setIsLoading(false);
     }

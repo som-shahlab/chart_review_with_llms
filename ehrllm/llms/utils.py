@@ -2,6 +2,7 @@ from concurrent.futures import ThreadPoolExecutor, ProcessPoolExecutor, as_compl
 import datetime
 import time
 import json
+from ehrllm.backend.app.config import PATH_TO_CACHE_DIR
 import litellm
 from typing import Any, Dict, List, Optional, Union, Callable, Tuple
 from pydantic import BaseModel
@@ -117,7 +118,7 @@ def call_llm_with_retries(messages: List[dict],
                                             **kwargs)
     
             # Cache results
-            path_to_cache: str = os.path.join("call_llm_with_retries", f"{datetime.datetime.now().strftime('%Y-%m-%d_%H-%M-%S')}.json")
+            path_to_cache: str = os.path.join(PATH_TO_CACHE_DIR, "call_llm_with_retries", f"{datetime.datetime.now().strftime('%Y-%m-%d_%H-%M-%S')}.json")
             os.makedirs(os.path.dirname(path_to_cache), exist_ok=True)
             with open(path_to_cache, 'w') as f:
                 json.dump({
@@ -125,7 +126,7 @@ def call_llm_with_retries(messages: List[dict],
                     'response_format' : str(response_format),
                     'response' : response.choices[0].message.content,
                     'messages' : messages,
-                }, f)
+                }, f, indent=2)
             
             # Parse results
             if response_format:
