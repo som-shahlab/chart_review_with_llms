@@ -17,7 +17,7 @@ export function SettingsHeader({ settings, setSettings, loadPatient }: { setting
     // Initialize state from settings
     const model = settings.model;
     const database = settings.database;
-
+    
     // Update settings
     const setMode = (value: string) => {
         if (value === 'clinicalTrialRecruitment') {
@@ -41,11 +41,11 @@ export function SettingsHeader({ settings, setSettings, loadPatient }: { setting
     return (
         <div className="flex justify-between">
         <div className="flex gap-2">
-        <Button variant="outline" size="sm" onClick={() => setMode('clinicalTrialRecruitment')}>
-        Clinical Trial Recruitment
+        <Button variant="ghost" size="sm" onClick={() => setMode('clinicalTrialRecruitment')}>
+        	Clinical Trial Recruitment
         </Button>
-        <Button variant="outline" size="sm" onClick={() => setMode('chartAbstraction')}>
-        Chart Abstraction
+        <Button variant="ghost" size="sm" onClick={() => setMode('chartAbstraction')}>
+        	Chart Abstraction
         </Button>
         </div>
         <div className="relative">

@@ -1,35 +1,50 @@
-# Installation
+# EHR-LLM
+
+A tool for using LLMs for chart abstraction + review.
+
+![MIMIC-IV](assets/mimiciv.png)
+
+Supported datasets:
+1. MIMIC-IV
+1. n2c2 2018 clinical trial matching
+1. `[TODO]` STARR-OMOP
+
+Supported model providers:
+1. Ollama (local)
+1. Litellm (remote)
+1. SHC Azure (remote)
+
+## Usage
+
+```bash
+conda activate ehrllm
+
+# Python backend
+cd ehrllm/backend && python3 wsgi.py
+
+# React frontend
+cd ehrllm/frontend && npm run dev
+```
+
+## Installation
 
 ```bash
 conda create -n ehrllm python=3.10 -y
 conda activate ehrllm
 
 # Python backend
-cd ehrllm/backend
-poetry install
+pip install -e .
 
 # React frontend
 cd ehrllm/frontend
 npm install
 ```
 
-# Usage
+## Data
 
-```bash
-conda activate ehrllm
+### MIMIC-IV
 
-# Python backend
-cd ehrllm/backend
-python3 wsgi.py
-
-# React frontend
-cd ehrllm/frontend
-npm run dev
-```
-
-## 2. Data
-
-Download data from MIMIC-IV:
+Download data from [MIMIC-IV Notes](https://www.physionet.org/content/mimic-iv-note/2.2/):
 
 ```bash
 # Download notes
@@ -42,6 +57,6 @@ for file in *.csv.gz; do
 done
 ```
 
-## 3. Run
+### n2c2 2018 CT Matching
 
-```bash
+Download from [this link](https://portal.dbmi.hms.harvard.edu/projects/n2c2-nlp/).

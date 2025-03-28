@@ -137,14 +137,14 @@ export function ChatInterface({ patientId, highlightEvidence, settings, query, s
   }, [patientData]);
 
   useEffect(() => {
-    const model_name: string = settings.model ? MODEL_2_DISPLAY_NAME[settings.model] : '';
+    console.log("Using chat model:", settings.model);
     if (settings.database === 'n2c2-2018' && patientData) {
       setMessages([
-        { role: 'assistant', id: 'assistant', content: `Hi! I am a bot [${model_name}] that can help you determine if this patient is eligible for a clinical trial. Please double check important details, as I can make mistakes.` }
+        { role: 'assistant', id: 'assistant', content: `Hi! I am a bot that can help you determine if this patient is eligible for a clinical trial. Please double check important details, as I can make mistakes.` }
       ]);
     } else if (settings.database === 'mimiciv-notes' && patientData) {
       setMessages([
-        { role: 'assistant', id: 'assistant', content: `Hi! I am a bot [${model_name}] that can answer any question you have about this patient. Please double check important details, as I can make mistakes.` }
+        { role: 'assistant', id: 'assistant', content: `Hi! I am a bot that can answer any question you have about this patient. Please double check important details, as I can make mistakes.` }
       ]);
     }
   }, [settings.database, settings.model, patientData]);
