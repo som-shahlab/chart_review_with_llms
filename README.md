@@ -1,4 +1,4 @@
-# EHR-LLM
+# Chart Review with LLMs
 
 A tool for using LLMs for chart abstraction + review.
 
