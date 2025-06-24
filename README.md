@@ -1,4 +1,4 @@
-# EHR-LLM
+# Chart Review with LLMs
 
 A tool for using LLMs for chart abstraction + review.
 
@@ -48,7 +48,7 @@ Download data from [MIMIC-IV Notes](https://www.physionet.org/content/mimic-iv-n
 
 ```bash
 # Download notes
-wget -r -N -c -np --user miking98 --ask-password https://physionet.org/files/mimic-iv-note/2.2
+wget -r -N -c -np --user miking98 --ask-password https://physionet.org/files/mimic-iv-note/2.2/
 
 # Unzip .csv.gz files
 cd mimiciv/physionet.org/files/mimic-iv-note/2.2/note
