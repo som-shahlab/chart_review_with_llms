@@ -9,8 +9,15 @@ def create_app():
     CORS(app)
 
     # Initialize data service
-    MIMICIVNotesDatabase.instance()
-    N2C22018CTMatchingDatabase.instance()
+    try:
+        MIMICIVNotesDatabase.instance()
+    except Exception as e:
+        print(f"Error initializing MIMICIVNotesDatabase: {e}")
+
+    try:
+        N2C22018CTMatchingDatabase.instance()
+    except Exception as e:
+        print(f"Error initializing N2C22018CTMatchingDatabase: {e}")
     
     app.register_blueprint(api, url_prefix='/api')
 

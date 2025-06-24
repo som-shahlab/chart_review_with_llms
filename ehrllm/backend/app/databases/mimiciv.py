@@ -50,7 +50,7 @@ class MIMICIVNotesDatabase(BaseDatabase):
         df_patient_notes = self.df_notes.filter(
             pl.col('subject_id') == patient_id
         ).sort('charttime', descending=True)
-        logger.info(f"Found {len(df_patient_notes)} notes for patient {patient_id}")
+        logger.info(f"Found {df_patient_notes.shape[0]} notes for patient {patient_id}")
         
         note_dicts = df_patient_notes.select([
             pl.col('note_id'),

@@ -70,15 +70,6 @@ def run_query_over_notes(messages: List[Dict[str, Any]], notes: List[Note], **kw
             for evidence in r.evidence:
                 for quote in evidence.quotes:
                     quote.source = notes[idx].note_id
-        # r_dicts: List[Dict[str, Any]] = []
-        # for idx in range(len(responses)):
-        #     resp = responses[idx]
-        #     r_dict = resp.model_dump()
-        #     # Add note_id to this response's evidence
-        #     for evidence in r_dict['evidence']:
-        #         for quote in evidence['quotes']:
-        #             quote['source'] = notes[idx].note_id
-        #     r_dicts.append(r_dict)
 
         return responses
     except Exception as e:
