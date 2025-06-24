@@ -108,6 +108,7 @@ def call_llm_with_retries(messages: List[dict],
     Returns:
         Optional[str, Any]: The response from the LLM. If response_format is provided, returns the same object parsed from the LLM's JSON response.
     """
+    model = 'gpt-4o-mini' # TODO
     retries: int = 0
     while retries < max_retries:
         try:
