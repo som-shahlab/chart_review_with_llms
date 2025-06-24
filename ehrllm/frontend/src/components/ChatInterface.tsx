@@ -5,16 +5,17 @@ import { Card } from "@/components/ui/card"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import { HRHeader } from '@/components/ui/hr-header'
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
-import { getChatResponse } from '@/lib/api'
+import { getChatResponse } from '@/utils/api'
 import { Loader2, ChevronDown, ChevronUp, ExternalLink, } from 'lucide-react'
 import { Badge } from '@/components/ui/badge'
 import React from 'react'
 import { Message, PatientData } from "@/types";
 import { KeyboardShortcut } from './ui/keyboard-shortcut'
-import { createKeyboardShortcut, MODEL_2_DISPLAY_NAME } from '@/lib/utils'
+import { createKeyboardShortcut, MODEL_2_DISPLAY_NAME } from '@/utils/utils'
+import { searchEmitter } from '@/events/search'
 
 interface ChatInterfaceProps {
-  patientId: number | null;
+  patientId: string | null;
   highlightEvidence: (message: Message) => void;
   settings: any;
   query: string;
@@ -137,7 +138,6 @@ export function ChatInterface({ patientId, highlightEvidence, settings, query, s
   }, [patientData]);
 
   useEffect(() => {
-    console.log("Using chat model:", settings.model);
     if (settings.database === 'n2c2-2018' && patientData) {
       setMessages([
         { role: 'assistant', id: 'assistant', content: `Hi! I am a bot that can help you determine if this patient is eligible for a clinical trial. Please double check important details, as I can make mistakes.` }
@@ -149,8 +149,17 @@ export function ChatInterface({ patientId, highlightEvidence, settings, query, s
     }
   }, [settings.database, settings.model, patientData]);
 
+  useEffect(() => {
+    const existingHandlers = Array.from(searchEmitter.all.keys());
+    if (!existingHandlers.includes('submitQuery')) {
+      searchEmitter.on("submitQuery", (query: unknown) => {
+        submitQuery(query);
+      });
+    }
+  }, []);
+
   // Submit query to chatbot
-  const submitQuery = async () => {
+  const submitQuery = async (query: string) => {
     setError(null);
     if (!query.trim() || !patientId) return
 
@@ -187,10 +196,21 @@ export function ChatInterface({ patientId, highlightEvidence, settings, query, s
       <HRHeader title="Chat" />
       <div className="flex-1 flex flex-col justify-end">
         <ScrollArea className="w-full max-h-[calc(60vh)] overflow-y-auto">
+
+          {/* Display chat messages */}
           {messages.length > 0 ? 
             formatMessages(messages, highlightEvidence) : 
             <div className="text-center text-muted-foreground my-2">No messages yet</div>
           }
+
+          {/* If isLoading, show a loading message */}
+          {isLoading && (
+            <div className="flex items-center gap-2 text-muted-foreground my-2">
+              <Loader2 className="h-4 w-4 animate-spin" />
+              Thinking...
+            </div>
+          )}
+
           <div ref={scrollRef} />
         </ScrollArea>
         <div className="p-4 border-t flex gap-2">
@@ -200,10 +220,10 @@ export function ChatInterface({ patientId, highlightEvidence, settings, query, s
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             placeholder="Type your message [t]..."
-            onKeyDown={(e) => e.key === 'Enter' && submitQuery()}
+            onKeyDown={(e) => e.key === 'Enter' && submitQuery(query)}
             disabled={!patientId}
           />
-          <Button onClick={submitQuery} disabled={!patientId || isLoading || !query.trim()}>
+          <Button onClick={() => submitQuery(query)} disabled={!patientId || isLoading || !query.trim()}>
             {isLoading ? 
               <>
                 <Loader2 className="h-4 w-4 animate-spin" />

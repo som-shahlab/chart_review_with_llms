@@ -3,12 +3,13 @@ import { ScrollArea } from "@/components/ui/scroll-area"
 import { format } from "date-fns"
 import { HRHeader } from "@/components/ui/hr-header";
 import { useRef, useState, useEffect } from "react";
-import { ChevronLeft, ChevronRight, EyeClosed } from "lucide-react";
+import { ChevronLeft, ChevronRight, Copy, EyeClosed } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "./ui/badge";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { Note } from "@/types";
 import { KeyboardShortcut } from "./ui/keyboard-shortcut";
+import { toast } from "sonner";
 
 interface NotesListProps {
   notes?: Note[];
@@ -106,8 +107,6 @@ export function NotesList({ notes, highlightClaimQuoteTuples = [], hideEvidence 
     
     // Remove highlightClaimQuoteTuples for notes that don't match the noteId
     const filteredHighlightClaimQuoteTuples = highlightClaimQuoteTuples.filter(([_, __, note_id]) => note_id === noteId);
-    console.log('highlightClaimQuoteTuples', highlightClaimQuoteTuples);
-    console.log('filteredHighlightClaimQuoteTuples', filteredHighlightClaimQuoteTuples);
     if (filteredHighlightClaimQuoteTuples.length === 0) return text; // ! NOTE: Needed, otherwise `combinedPattern` will default to '/(?:)/gim' which creates an infinite loop
 
     // Group claims by normalized quote
@@ -293,15 +292,23 @@ export function NotesList({ notes, highlightClaimQuoteTuples = [], hideEvidence 
                 <p className="font-medium text-sm">
                   {format(new Date(note.chartdatetime), 'MMM dd, yyyy')}
                 </p>
-                <p className="text-sm text-muted-foreground">
-                  Adm #{note?.hadm_id || 'N/A'} • {formatNoteType(note.note_type)}
-                </p>
+                {/* copy content to clipboard */}
+                <TooltipProvider>
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <Button variant="outline" size="icon" onClick={() => {
+                        navigator.clipboard.writeText(note.text);
+                        toast.success("Copied to clipboard");
+                      }}>
+                        <Copy className="h-4 w-4" />
+                      </Button>
+                    </TooltipTrigger>
+                  </Tooltip>
+                </TooltipProvider>
               </div>
               <div className="flex justify-between items-center">
-                <p className="font-medium text-sm">
-                </p>
                 <p className="text-sm text-muted-foreground">
-                  Note #{note?.note_id || 'N/A'}
+                  Adm #{note?.hadm_id || 'N/A'} • Note #{note?.note_id || 'N/A'} • {formatNoteType(note.note_type)}
                 </p>
               </div>
               <hr className="mt-2 mb-0 py-0" />

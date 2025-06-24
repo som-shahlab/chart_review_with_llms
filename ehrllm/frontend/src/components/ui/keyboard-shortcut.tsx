@@ -1,4 +1,4 @@
-import { createKeyboardShortcut } from "@/lib/utils";
+import { createKeyboardShortcut } from "@/utils/utils";
 import { useEffect } from "react";
 
 interface KeyboardShortcutProps {

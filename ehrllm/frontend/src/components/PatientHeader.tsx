@@ -4,7 +4,7 @@ import { Input } from "@/components/ui/input"
 import { Card } from "@/components/ui/card"
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 import { AlertCircle, Loader2 } from "lucide-react"
-import { createKeyboardShortcut } from '@/lib/utils'
+import { createKeyboardShortcut } from '@/utils/utils'
 import { PatientMetadata } from '@/types'
 import { N2C22018LabelsPanel } from './LabelsPanel'
 
@@ -109,7 +109,7 @@ export function PatientHeader({ loadPatient, patientMetadata, error, setError, s
       )}
       {patientMetadata?.labels && patientMetadata.labels.length > 0 && (
         settings?.database === 'n2c2-2018' ? 
-          <N2C22018LabelsPanel patientMetadata={patientMetadata} setQuery={setQuery} /> 
+          <N2C22018LabelsPanel patientMetadata={patientMetadata} settings={settings} /> 
           :
           <div>Unknown database</div>
       )}

@@ -2,7 +2,7 @@ import { PatientHeader } from './PatientHeader'
 import { NotesList } from './NotesList'
 import { ChatInterface } from './ChatInterface'
 import { useEffect, useState } from 'react'
-import { getPatientInfo } from '@/lib/api'
+import { getPatientInfo } from '@/utils/api'
 import { PatientData, Evidence, Message } from '@/types'
 import { SettingsHeader } from './SettingsHeader'
 
@@ -79,42 +79,42 @@ export function Main() {
   }
   return (
     <div className="container mx-auto p-2">
-    <div className="mb-1">
-    <SettingsHeader
-    settings={settings}
-    setSettings={setSettings}
-    loadPatient={loadPatient}
-    />
-    </div>
-    <PatientHeader 
-    loadPatient={loadPatient} 
-    patientId={patientId}
-    setPatientId={setPatientId}
-    patientMetadata={patientData?.metadata}
-    setQuery={setQuery}
-    error={headerError}
-    setError={setHeaderError}
-    settings={settings}
-    />
-    <div className="grid grid-cols-2 gap-6">
-    <div>
-    <NotesList 
-    notes={patientData?.notes} 
-    highlightClaimQuoteTuples={highlightClaimQuoteTuples} 
-    hideEvidence={hideEvidence}
-    />
-    </div>
-    <div>
-    <ChatInterface 
-    patientId={patientId} 
-    patientData={patientData}
-    highlightEvidence={highlightEvidence} 
-    query={query}
-    setQuery={setQuery}
-    settings={settings}
-    />
-    </div>
-    </div>
+      <div className="mb-1">
+        <SettingsHeader
+          settings={settings}
+          setSettings={setSettings}
+          loadPatient={loadPatient}
+        />
+      </div>
+      <PatientHeader 
+        loadPatient={loadPatient} 
+        patientId={patientId}
+        setPatientId={setPatientId}
+        patientMetadata={patientData?.metadata}
+        setQuery={setQuery}
+        error={headerError}
+        setError={setHeaderError}
+        settings={settings}
+      />
+      <div className="grid grid-cols-2 gap-6">
+        <div>
+          <NotesList 
+            notes={patientData?.notes} 
+            highlightClaimQuoteTuples={highlightClaimQuoteTuples} 
+            hideEvidence={hideEvidence}
+          />
+        </div>
+        <div>
+          <ChatInterface 
+            patientId={patientId} 
+            patientData={patientData}
+            highlightEvidence={highlightEvidence} 
+            query={query}
+            setQuery={setQuery}
+            settings={settings}
+          />
+        </div>
+      </div>
     </div>
   )
 }
