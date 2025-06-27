@@ -12,7 +12,8 @@ Supported datasets:
 Supported model providers:
 1. Ollama (local)
 1. Litellm (remote)
-1. SHC Azure (remote)
+1. Azure OpenAI (remote)
+1. OpenAI (remote)
 
 ## Usage
 

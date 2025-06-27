@@ -37,7 +37,7 @@ export function Main() {
   // Update patient ID when settings are changed
   useEffect(() => {
     if (settings.mode === 'clinicalTrialRecruitment') {
-      loadPatient('101');
+      loadPatient('104');
     } else if (settings.mode === 'chartAbstraction') {
       loadPatient('10000032');
     }
